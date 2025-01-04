@@ -28,35 +28,12 @@ def verify():
                 # Make the second request
                 new_response = requests.get(new_url)
                 if new_response.status_code == 200:
-                  verify_value = data_addhash
-                  data = {"verify": verify_value}
-                  cookies = {
-                    "addhash": verify_value
-                  }
-                  while True:  # Infinite loop to retry until "All Done"
-                    try:
-                      # Send POST request
-                      response = requests.post(url, data=data, cookies=cookies)
-                      response.raise_for_status()
-                      result = response.json()
-                      if result.get("statusup") == "All Done":
-                        return jsonify({
+                    return jsonify({
                         "status": "success",
                         "data_addhash": data_addhash,
                         "new_url": new_url,
-                        "second_response": new_response.text[:200],
-                        "need": response.cookies.get_dict())
-                        })
-                    
-                        break
-                      else:
-                    except requests.exceptions.RequestException as e:
-                    time.sleep(5)
-                        
-                    
-                  
-                  
-                    
+                        "second_response": new_response.text[:200]
+                    })
                 else:
                     return jsonify({"status": "failed", "error": "Second request failed"}), 400
             else:
