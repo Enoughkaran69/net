@@ -6,6 +6,10 @@ import time
 
 app = Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def index():
+    return "Hello, User!"
+    
 @app.route('/verify', methods=['GET'])
 def verify():
     try:
